@@ -16,7 +16,6 @@ module.exports.crearUsuario = async function (data) {
             usuario: data.usuario,
             password: data.password,
             rol: [
-                "ADMIN",
                 "NORMAL_USER"
             ]
         }
@@ -24,6 +23,7 @@ module.exports.crearUsuario = async function (data) {
         return nuevoUsuario
     }
 }
+
 module.exports.chequeoDeUsuario = async function (data) {
 
     let resultado = await usuarios.find({usuario:data.usuario, password: data.password},(err, res)=> {
@@ -67,4 +67,12 @@ module.exports.permisosValidos = async function (data, metodo){
     }else {
         throw new Error ('usted no tiene permisos para la operacion que desea realizar')
     }
+}
+
+module.exports.modificaRol = async function (idUsuario, usuario){
+
+    let resultado = await usuarios.findByIdAndUpdate({_id:idUsuario}, usuario, (err,res)=>{
+        return res
+    })
+    return resultado
 }
